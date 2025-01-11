@@ -1,5 +1,7 @@
 package org.Akhil.shortener.controller;
 
+import org.Akhil.shortener.config.JwtAuthenticationResponse;
+import org.Akhil.shortener.dto.LoginRequest;
 import org.Akhil.shortener.dto.RegisterRequest;
 import org.Akhil.shortener.dto.Response;
 import org.Akhil.shortener.service.AuthService;
@@ -26,5 +28,12 @@ public class AuthController {
         authService.registerUser(registerRequest);
         Response response=new Response("Success", LocalDateTime.now(),"User registered successfully",null);
         return ResponseEntity.status(CREATED).body(response);
+    }
+
+    @PostMapping("/public/login")
+    public ResponseEntity<Response> loginUser(@RequestBody LoginRequest loginrequest){
+        JwtAuthenticationResponse jwtAuthenticationResponse=authService.authenticateUser(loginrequest);
+        Response response=new Response("Success", LocalDateTime.now(),jwtAuthenticationResponse,null);
+        return ResponseEntity.ok(response);
     }
 }
