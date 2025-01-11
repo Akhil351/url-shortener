@@ -5,6 +5,7 @@ import org.Akhil.shortener.config.JwtUtils;
 import org.Akhil.shortener.dto.LoginRequest;
 import org.Akhil.shortener.dto.RegisterRequest;
 import org.Akhil.shortener.exception.EmailAlreadyExistException;
+import org.Akhil.shortener.exception.UserNotFoundException;
 import org.Akhil.shortener.model.User;
 import org.Akhil.shortener.repository.UserRepository;
 import org.Akhil.shortener.service.AuthService;
@@ -45,5 +46,10 @@ public class AuthServiceImpl implements AuthService {
         UserDetailsImpl userDetails=(UserDetailsImpl) authentication.getPrincipal();
         String jwtToken=jwtUtils.generateToken(userDetails);
         return new JwtAuthenticationResponse(jwtToken);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(()->new UserNotFoundException(String.format("User with email:%s not found",email)));
     }
 }

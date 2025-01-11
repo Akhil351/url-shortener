@@ -19,7 +19,7 @@ public class UrlMapping {
     private Long id;
     private String originalUrl;
     private String shortUrl;
-    private Integer clickCount;
+    private Integer clickCount=0;
     private LocalDateTime createdDate;
 
     @ManyToOne
@@ -28,7 +28,9 @@ public class UrlMapping {
 
     @OneToMany(mappedBy = "urlMapping")
     private List<ClickEvent> clickEvents;
+    public UrlMapping(){
 
+    }
     public UrlMapping(Long id, String originalUrl, String shortUrl, Integer clickCount, LocalDateTime createdDate, User user, List<ClickEvent> clickEvents) {
         this.id = id;
         this.originalUrl = originalUrl;

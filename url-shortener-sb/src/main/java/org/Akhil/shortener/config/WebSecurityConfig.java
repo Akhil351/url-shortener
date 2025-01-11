@@ -1,5 +1,6 @@
 package org.Akhil.shortener.config;
 
+import org.Akhil.shortener.model.UserRequestContext;
 import org.Akhil.shortener.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,11 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public UserRequestContext userRequestContext(){
+        return new UserRequestContext();
     }
 
     @Bean
