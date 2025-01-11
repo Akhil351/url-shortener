@@ -60,6 +60,18 @@ public class UrlMappingServiceImpl implements UrlMappingService {
         return this.convertToClickEventDto(clickEvents);
     }
 
+    @Override
+    public UrlMapping getOriginalUrl(String shortUrl) {
+        UrlMapping urlMapping= urlMappingRepository.findByShortUrl(shortUrl).orElseThrow(()->new ResourceNotFoundException("urlMapping not found"));
+        urlMapping.setClickCount(urlMapping.getClickCount()+1);
+        urlMappingRepository.save(urlMapping);
+        ClickEvent clickEvent=new ClickEvent();
+        clickEvent.setClickDate(LocalDateTime.now());
+        clickEvent.setUrlMapping(urlMapping);
+        clickEventRepository.save(clickEvent);
+        return urlMapping;
+    }
+
     private List<ClickEventDto> convertToClickEventDto(List<ClickEvent> clickEvents){
         List<ClickEventDto> clickEventDtos=new ArrayList<>();
         Map<LocalDate,Long> groupedClicks=new HashMap<>();
