@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -27,6 +28,13 @@ public class UrlMappingServiceImpl implements UrlMappingService {
         UrlMapping savedUrlMapping=urlMappingRepository.save(urlMapping);
         return this.convertToDto(savedUrlMapping);
     }
+
+    @Override
+    public List<UrlMappingDto> getUrlsByUser(User user) {
+        List<UrlMapping> urlMappings=urlMappingRepository.findByUser(user);
+        return urlMappings.stream().map(this::convertToDto).toList();
+    }
+
     private UrlMappingDto convertToDto(UrlMapping urlMapping){
         UrlMappingDto urlMappingDto=new UrlMappingDto();
         urlMappingDto.setId(urlMapping.getId());

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,6 +36,15 @@ public class UrlMappingController {
         User user=authService.findByEmail(context.getEmail());
         UrlMappingDto urlMappingDto=urlMappingService.createShortUrl(originalUrl,user);
         Response response=new Response("Success", LocalDateTime.now(),urlMappingDto,null);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/myUrls")
+    @PreAuthorize("@roleValidate.validateRole()")
+    public ResponseEntity<Response> getUserUrls(){
+        User user=authService.findByEmail(context.getEmail());
+        List<UrlMappingDto> urlMappingDtos=urlMappingService.getUrlsByUser(user);
+        Response response=new Response("Success", LocalDateTime.now(),urlMappingDtos,null);
         return ResponseEntity.ok(response);
     }
 }
