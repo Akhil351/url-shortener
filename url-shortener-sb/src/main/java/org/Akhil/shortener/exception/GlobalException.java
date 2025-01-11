@@ -22,8 +22,8 @@ public class GlobalException {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(response);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Response> handleUserNotFoundException(UserNotFoundException ex){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Response> handleUserNotFoundException(ResourceNotFoundException ex){
         Response response=new Response("Failed", LocalDateTime.now(),null,ex.getMessage());
         return ResponseEntity.status(NOT_FOUND).body(response);
     }
