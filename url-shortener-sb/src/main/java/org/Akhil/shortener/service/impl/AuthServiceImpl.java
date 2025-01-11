@@ -9,7 +9,6 @@ import org.Akhil.shortener.exception.ResourceNotFoundException;
 import org.Akhil.shortener.model.User;
 import org.Akhil.shortener.repository.UserRepository;
 import org.Akhil.shortener.service.AuthService;
-import org.Akhil.shortener.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

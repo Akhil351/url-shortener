@@ -1,7 +1,7 @@
 package org.Akhil.shortener.config;
 
 import org.Akhil.shortener.model.UserRequestContext;
-import org.Akhil.shortener.service.UserDetailsServiceImpl;
+import org.Akhil.shortener.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

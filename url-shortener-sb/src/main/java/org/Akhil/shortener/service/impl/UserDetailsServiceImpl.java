@@ -1,4 +1,4 @@
-package org.Akhil.shortener.service;
+package org.Akhil.shortener.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.Akhil.shortener.model.User;
