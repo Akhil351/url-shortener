@@ -3,19 +3,24 @@ import api from '../api/api';
 export const useFetchTotalClicks = (token, onError) => {
     return useQuery("url-totalclick"
         , async () => {
-            return await api.get("/api/urls/totalClicks?startDate=2025-01-01&endDate=2025-12-31", {
+            const response = await api.get("/api/urls/totalClicks?startDate=2025-01-01&endDate=2025-12-31", {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                     "Authorization": `Bearer ${token}`,
                 }
             });
+            return response.data
         }
         , {
-           select: (data)=>{
-
-           },
-           onError,
-           staleTime: 5000
-        })
-}
+            select: (data) => {
+                const convertToArray = data.data.map((item) => ({
+                    clickDate: item.clickDate,
+                    count: item.count
+                }));
+                return convertToArray
+            },
+            onError,
+            staleTime: 5000
+        });
+};
