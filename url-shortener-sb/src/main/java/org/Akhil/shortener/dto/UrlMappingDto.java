@@ -7,7 +7,7 @@ public class UrlMappingDto {
     private String originalUrl;
     private String shortUrl;
     private int clickCount;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     private String userName;
 
     public void setId(Long id) {
@@ -42,12 +42,12 @@ public class UrlMappingDto {
         this.clickCount = clickCount;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setCreateDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getUserName() {
@@ -65,7 +65,7 @@ public class UrlMappingDto {
                 ", originalUrl='" + originalUrl + '\'' +
                 ", shortUrl='" + shortUrl + '\'' +
                 ", clickCount=" + clickCount +
-                ", createDate=" + createDate +
+                ", createdDate=" + createdDate +
                 ", userName='" + userName + '\'' +
                 '}';
     }
