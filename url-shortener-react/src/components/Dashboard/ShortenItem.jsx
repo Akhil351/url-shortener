@@ -1,19 +1,60 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { FaExternalLinkAlt, FaRegCalendarAlt } from 'react-icons/fa';
 import { MdAnalytics, MdOutlineAdsClick } from 'react-icons/md';
 import dayjs from 'dayjs';
+import api from '../../api/api';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { IoCopy } from 'react-icons/io5';
 import { LiaCheckSolid } from 'react-icons/lia';
+import { useStoreContext } from '../../contextApi/ContextApi';
+import Graph from './Graph';
+import { Hourglass } from 'react-loader-spinner';
 const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdDate }) => {
+  const navigate = useNavigate();
+  const { token } = useStoreContext();
   const subDomain = import.meta.env.VITE_REACT_FRONT_END_URL.replace(
     /^https?:\/\//,
     ""
   );
   const [isCopied, setIsCopied] = useState(false);
-  const analyticsHandler=(shortUrl)=>{
-    
+  const [analyticToggle, setAnalyticToggle] = useState(false);
+  const [selectedUrl, setSelectedUrl] = useState("")
+  const [loader, setLoader] = useState(false)
+  const [analyticsData, setAnalyticsData] = useState([]);
+  const analyticsHandler = (shortUrl) => {
+    if (!analyticToggle) {
+      setSelectedUrl(shortUrl);
+    }
+    setAnalyticToggle(!analyticToggle)
+
+  }
+  useEffect(() => {
+    if (selectedUrl) {
+      fetchMyShortUrl();
+    }
+  }, [selectedUrl]);
+
+  const fetchMyShortUrl = async () => {
+    setLoader(true);
+    try {
+      const response = await api.get(`/api/urls/analytics/${selectedUrl}?startDate=2025-01-01T00:00:00&endDate=2025-12-07T23:59:59`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+      });
+      setAnalyticsData(response.data.data);
+      setSelectedUrl("");
+      console.log(response.data.data);
+
+    } catch (error) {
+      navigate("/error");
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
   }
   return (
 
@@ -78,6 +119,40 @@ const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdDate }) => {
           </div>
         </div>
       </div>
+      <React.Fragment>
+        <div className={`${analyticToggle ? "flex" : "hidden"
+          }  max-h-96 sm:mt-0 mt-5 min-h-96 relative  border-t-2 w-[100%] overflow-hidden `}>
+          {loader ? (
+            <div className="min-h-[calc(450px-140px)] flex justify-center items-center w-full">
+              <div className="flex flex-col items-center gap-1">
+                <Hourglass
+                  visible={true}
+                  height="50"
+                  width="50"
+                  ariaLabel="hourglass-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  colors={['#306cce', '#72a1ed']}
+                />
+                <p className='text-slate-700'>Please Wait...</p>
+              </div>
+            </div>
+          ) : (<>{analyticsData.length === 0 && (
+            <div className="absolute flex flex-col  justify-center sm:items-center items-end  w-full left-0 top-0 bottom-0 right-0 m-auto">
+              <h1 className=" text-slate-800 font-serif sm:text-2xl text-[15px] font-bold mb-1">
+                No Data For This Time Period
+              </h1>
+              <h3 className="sm:w-96 w-[90%] sm:ml-0 pl-6 text-center sm:text-lg text-[12px] text-slate-600 ">
+                Share your short link to view where your engagements are
+                coming from
+              </h3>
+            </div>
+          )}
+            <Graph graphData={analyticsData} />
+          </>
+          )}
+        </div>
+      </React.Fragment>
     </div>
 
   )
