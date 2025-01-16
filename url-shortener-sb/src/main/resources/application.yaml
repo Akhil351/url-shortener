@@ -2,10 +2,10 @@ spring:
   application:
     name: url-shortener-sb
   datasource:
-    url: jdbc:postgresql://localhost:5432/urlshortenerdb
-    username: postgres
-    password: Eshwar@351
-    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: ${DATABASE_DRIVER}
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,10 +13,10 @@ spring:
   main:
     banner-mode: off
 jwt:
-  secret: 498996a635ae7ea98db31c124146d534ffd6c6ffeb6e22bacd7df763c6403a91715bb085764f6e3d8ea69165dab057d65a1f1e167577d71bdfd3984d27f9d16643a016390d3b92f8367274d2fc29b39501738598aa88238221d920a2a284bef1cbbac50e7563477a8efb9e1e413891eb7f213eb1c8cf5ebf4fbac101471550e17938512e1727312cd66f898e2405a654c7e19dca12b27c3b8327324bfbbafb4572e264d9dbaa7041f6e315cdb57db134a369e1ff2f642f9850c26a619cfb5681ac565129544a94961f43f776d1cd6df2dd60beb2b4ecf6247b6241313df2570aae2d50a97f7b7eb80740363485d729c5a57cb4c44b228ccf86da02fd37fe1f02
+  secret: ${JWT_SECRET}
   expiration: 600000
 frontEnd:
-  url: http://localhost:5173
+  url: ${FRONTEND_URL}
 #logging:
 #  level:
 #    root: ERROR
