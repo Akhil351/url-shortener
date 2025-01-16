@@ -60,6 +60,7 @@ const RegisterPage = () => {
             navigate("/login");
             toast.success("Registration Successful!");
         } catch (error) {
+            navigate("/error")
             console.error(error);
             toast.error("Registration Failed!");
         } finally {

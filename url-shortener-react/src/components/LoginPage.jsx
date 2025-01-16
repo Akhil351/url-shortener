@@ -59,6 +59,7 @@ const LoginPage = () => {
             navigate("/dashboard");
             toast.success("Login Successful!");
         } catch (error) {
+            navigate("/error")
             console.error(error);
             toast.error("Login Failed!");
         } finally {
