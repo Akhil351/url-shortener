@@ -2,6 +2,7 @@ import { subDomainList } from "./constant";
 
 export const getApps = () => {
     const subDomain = getSubDomain(window.location.hostname);
+    console.log("subDomain",subDomain)
     const mainApp = subDomainList.find((app) => app.main);
     if (subDomain === "") return mainApp.app
     const apps = subDomainList.find((app) => subDomain === app.subdomain)
